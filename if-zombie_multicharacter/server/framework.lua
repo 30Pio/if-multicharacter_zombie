@@ -25,7 +25,7 @@ local function loadESXFramework()
         local _source = source
         local pIdentifier = ESX.GetIdentifier(_source)
         if not ESX.GetConfig().EnableDebug then
-            local identifier = CHAR_PREFIX .. character.id + 1 .. ":" .. pIdentifier(source)
+            local identifier = CHAR_PREFIX .. character.id + 1 .. ":" .. pIdentifier
             if ESX.GetPlayerFromIdentifier(identifier) then
                 DropPlayer(source, "Your identifier " .. identifier .. " is already on the server!")
                 return
