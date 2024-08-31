@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multicharacter</title>
+    <!-- Font -->
+    <link
+      href="https://cdn.rawgit.com/mfd/09b70eb47474836f25a21660282ce0fd/raw/e06a670afcb2b861ed2ac4a1ef752d062ef6b46b/Gilroy.css"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.cdnfonts.com/css/hikara" rel="stylesheet" />
+    <!-- Css -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/vue3-toastify@0.2.1/dist/index.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <v-app data-app>
+      <div id="app">
+        <div class="multicharacter" v-if="show.body">
+          <header class="header">
+            <div class="header__content">
+              <h2>
+                <span>Choosing </span>
+                <span>a character</span>
+              </h2>
+              <p>{{translations['characters_header_description']}}</p>
+            </div>
+          </header>
+          <main>
+            <div class="multicharacter__body">
+              <div class="section__content">
+                <!-- Cards -->
+                <div class="section__content-cards">
+                  <template v-for="index in characterSlots">
+                    <!-- Select character -->
+                    <div class="singleCard" v-if="characters[index - 1]">
+                      <div class="ctCard">
+                        <div class="cardContent">
+                          <h3>
+                            {{ characters[index - 1].identity.firstName }} {{
+                            characters[index - 1].identity.lastName }}
+                          </h3>
+                          <div class="cardIllustration">
+                            <img
+                              src="./assets/img/card-illustration.png"
+                              alt="img"
+                            />
+                          </div>
+                        </div>
+                        <!-- Button -->
+                        <button
+                          type="button"
+                          class="btnSelect"
+                          @click="clickCharacter(index - 1)"
+                        >
+                          {{translations['select_button']}}
+                        </button>
+                      </div>
+                    </div>
+                    <!-- Create character -->
+                    <div class="singleCard" v-else>
+                      <div class="ctCard">
+                        <div class="cardContent">
+                          <h3>{{translations['empty_slot']}}</h3>
+                          <div class="cardIllustration">
+                            <img
+                              src="./assets/img/card-illustration.png"
+                              alt="img"
+                            />
+                          </div>
+                        </div>
+                        <!-- Button -->
+                        <button
+                          type="button"
+                          class="btnCreate"
+                          @click="clickCharacter(index - 1)"
+                        >
+                          {{translations['create_button']}}
+                        </button>
+                      </div>
+                    </div>
+                  </template>
+                </div>
+                <!-- Table -->
+                <div class="section__content-table">
+                  <!-- Selection Table -->
+                  <div
+                    class="dataTable"
+                    v-if="selectedCharacterId !== -1 && characters[selectedCharacterId] && !show.delete"
+                  >
+                    <div class="dataTable__body" v-if="!show.delete">
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td>{{translations['name']}}:</td>
+                            <td>
+                              {{characters[selectedCharacterId].identity.firstName}}
+                              {{characters[selectedCharacterId].identity.lastName}}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>{{translations['birth_date']}}:</td>
+                            <td>
+                              {{characters[selectedCharacterId].identity.dateOfBirth}}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>{{translations['gender']}}:</td>
+                            <td>
+                              {{characters[selectedCharacterId].identity.gender}}
+                            </td>
+                          </tr>
+                          <tr
+                            v-if="showNationality && characters[selectedCharacterId].identity.nationality"
+                          >
+                            <td>{{translations['nationality']}}:</td>
+                            <td>
+                              {{characters[selectedCharacterId].identity.nationality}}
+                            </td>
+                          </tr>
+                          <tr
+                            v-if="characters[selectedCharacterId].identity.height"
+                          >
+                            <td>{{translations['height']}}:</td>
+                            <td>
+                              {{characters[selectedCharacterId].identity.height}}
+                              cm
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>{{translations['job']}}:</td>
+                            <td>
+                              {{characters[selectedCharacterId].job.label}} -
+                              {{characters[selectedCharacterId].job.grade}}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>{{translations['cash']}}:</td>
+                            <td class="active__data">
+                              &#36;
+                              {{formatMoney(characters[selectedCharacterId].accounts.cash
+                              ||
+                              characters[selectedCharacterId].accounts.money)}}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>{{translations['bank']}}:</td>
+                            <td>
+                              &#36;
+                              {{formatMoney(characters[selectedCharacterId].accounts.bank)}}
+                            </td>
+                          </tr>
+                          <tr
+                            v-if="characters[selectedCharacterId].identity.phone"
+                          >
+                            <td>{{translations['phone_number']}}:</td>
+                            <td>
+                              {{characters[selectedCharacterId].identity.phone}}
+                            </td>
+                          </tr>
+                          <!--<tr v-if="">
+                            <td>Acc ID:</td>
+                            <td>000000000001</td>
+                          </tr>-->
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- Buttons -->
+                    <button
+                      type="button"
+                      class="dataBtn"
+                      @click="playCharacter"
+                    >
+                      {{translations['select_button']}}
+                    </button>
+                    <button
+                      type="button"
+                      class="dataDelBtn"
+                      @click="deleteCharacter"
+                    >
+                      {{translations['delete_button']}}
+                    </button>
+                  </div>
+                  <!-- Delete Content -->
+                  <div class="dataTable" v-else-if="show.delete">
+                    <div class="dataTable__body">
+                      <h2 style="color: #fff">
+                        {{translations['deletechar_description']}}
+                      </h2>
+                    </div>
+                    <div>
+                      <button
+                        type="button"
+                        class="dataBtn"
+                        :disabled="!show.delete"
+                        @click="() => {show.delete = false}"
+                      >
+                        {{translations['cancel_button']}}
+                      </button>
+                      <button
+                        type="button"
+                        class="dataDelBtn"
+                        :disabled="!show.delete"
+                        @click="deleteCharacter"
+                      >
+                        {{translations['confirm_button']}}
+                      </button>
+                    </div>
+                  </div>
+                  <!-- Creation Table -->
+                  <div class="editData__table" v-else-if="show.register">
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td>{{translations['first_name']}}:</td>
+                          <td>
+                            <input
+                              type="text"
+                              v-model="registerData.firstName"
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>{{translations['last_name']}}:</td>
+                          <td>
+                            <input
+                              type="text"
+                              v-model="registerData.lastName"
+                            />
+                          </td>
+                        </tr>
+                        <tr v-if="showNationality">
+                          <td>{{translations['nationality']}}:</td>
+                          <td>
+                            <input
+                              type="text"
+                              v-model="registerData.nationality"
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>{{translations['height']}}:</td>
+                          <td>
+                            <input
+                              type="number"
+                              min="140"
+                              max="220"
+                              v-model="registerData.height"
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>{{translations['birth_date']}}:</td>
+                          <td>
+                            <input type="date" v-model="registerData.date" />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>{{translations['gender']}}:</td>
+                          <td>
+                            <div class="gender__select">
+                              <button
+                                type="button"
+                                :class="{ active: registerData.gender === translations['male'] }"
+                                @click="toggleGender(translations['male'])"
+                              >
+                                {{translations['male']}}
+                              </button>
+                              <button
+                                type="button"
+                                :class="{ active: registerData.gender === translations['female'] }"
+                                @click="toggleGender(translations['female'])"
+                              >
+                                {{translations['female']}}
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <!-- Button -->
+                    <button
+                      type="button"
+                      class="dataBtn"
+                      @click="createCharacter"
+                    >
+                      {{translations['create_button']}}
+                    </button>
+                  </div>
+                </div>
+                <div class="section__welcome-content" v-show="show.loading">
+                  <div class="loading-container">
+                    <div class="loading-circle">
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </div>
+                    <p>{{loadingText}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </v-app>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.prod.js"
+        }
+      }
+    </script>
+    <script src="./js/blockedWords.js"></script>
+    <script src="./js/main.js" type="module"></script>
+  </body>
+</html>

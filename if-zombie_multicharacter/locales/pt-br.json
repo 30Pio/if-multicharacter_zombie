@@ -1,0 +1,36 @@
+{
+    "notifications": {
+        "char_deleted": "Personagem excluído!"
+    },
+    "ui": {
+        "characters_header_description": "Crie um novo personagem ou selecione um existente",
+        "empty_slot": "Novo",
+        "select_button": "Selecionar",
+        "play_button": "Jogar",
+        "create_button": "Criar",
+        "delete_button": "Deletar",
+        "name": "Nome",
+        "male": "Masculino",
+        "female": "Feminino",
+        "first_name": "Primeiro Nome",
+        "last_name": "Sobrenome",
+        "nationality": "Nacionalidade",
+        "height": "Altura (cm)",
+        "gender": "Gênero",
+        "birth_date": "Data de Nascimento",
+        "job": "Emprego",
+        "cash": "Dinheiro",
+        "bank": "Banco",
+        "phone_number": "Número de Telefone",
+        "deletechar_description": "Você tem certeza que deseja deletar seu personagem?",
+        "cancel_button": "Cancelar",
+        "confirm_button": "Confirmar",
+        "retrieving_playerdata": "Recuperando dados do jogador",
+        "validating_playerdata": "Validando dados do jogador",
+        "retrieving_characters": "Recuperando personagens",
+        "validating_characters": "Validando personagens",
+        "ran_into_issue": "Encontramos um problema",
+        "bad_words": "Parece que você está tentando usar algum tipo de palavrão / palavras ofensivas no seu nome ou nacionalidade!",
+        "forgotten_field": "Parece que você esqueceu de preencher um ou mais campos!"
+    }
+}

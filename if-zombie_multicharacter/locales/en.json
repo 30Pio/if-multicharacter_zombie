@@ -1,0 +1,36 @@
+{
+    "notifications": {
+        "char_deleted": "Character deleted!"
+    },
+    "ui": {
+        "characters_header_description": "Create a new character or select an existing one",
+        "empty_slot": "New",
+        "select_button": "Select",
+        "play_button": "Play",
+        "create_button": "Create",
+        "delete_button": "Delete",
+        "name": "Name",
+        "male": "Male",
+        "female": "Female",
+        "first_name": "First Name",
+        "last_name": "Last Name",
+        "nationality": "Nationality",
+        "height": "Height (cm)",
+        "gender": "Gender",
+        "birth_date": "Birthdate",
+        "job": "Job",
+        "cash": "Cash",
+        "bank": "Bank",
+        "phone_number": "Phone Number",
+        "deletechar_description": "Are You Sure You Want To Delete Your Character?",
+        "cancel_button": "Cancel",
+        "confirm_button": "Confirm",
+        "retrieving_playerdata": "Retrieving player data",
+        "validating_playerdata": "Validating player data",
+        "retrieving_characters": "Retrieving characters",
+        "validating_characters": "Validating characters",
+        "ran_into_issue": "We ran into an issue",
+        "bad_words": "It seems like you are trying to use some type of profanity / bad words in your name or nationality!",
+        "forgotten_field": "It seems like you have forgotten to input one or multiple of the fields!"
+    }
+}
