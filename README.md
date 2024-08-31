@@ -1,6 +1,7 @@
 # IF Character Selection UI
 
-![Preview](./.github/preview.png)
+![Preview](Preview1.png)
+![Preview](Preview2.png)
 
 ## Overview
 
