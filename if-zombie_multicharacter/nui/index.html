@@ -181,6 +181,7 @@
                     <button
                       type="button"
                       class="dataDelBtn"
+                      v-if="allowDelete"
                       @click="deleteCharacter"
                     >
                       {{translations['delete_button']}}
