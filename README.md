@@ -7,8 +7,7 @@
 
 **IF Character Selection UI** is an open-source, highly configurable, and modular multi-character selection interface designed for the latest versions of ESX and QBCore frameworks. This UI allows players to seamlessly create, select, and manage their characters, offering a clean and modern design.
 
-- [ESX Preview](https://youtube.com/watch?v=)
-- [QB Preview](https://youtube.com/watch?v=)
+- [Preview](https://youtube.com/watch?v=yW-TBY9449w)
 
 ## Features
 
