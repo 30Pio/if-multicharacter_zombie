@@ -38,6 +38,14 @@ RegisterNUICallback('characterPed', function(data, cb)
         local skin = CLFramework.ESX and cached_player_skins[character.identifier] or
             CLFramework.QB and cached_player_skins[character.identifier].skin
 
+        if not model and skin.sex then -- ESX related
+            if skin.sex == 0 then
+                model = `mp_m_freemode_01`
+            else
+                model = `mp_f_freemode_01`
+            end
+        end
+
         model = model and (tonumber(model) or joaat(model)) or nil
 
         if model then

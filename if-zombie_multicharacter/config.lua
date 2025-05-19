@@ -26,11 +26,13 @@ Config = {
 }
 
 Config.DefaultESXSkin = {
-    [0] = {
+    ["m"] = {
         mom = 43,
         dad = 29,
+        grandparents = 0,
         face_md_weight = 61,
         skin_md_weight = 27,
+        face_g_weight = 0,
         nose_1 = -5,
         nose_2 = 6,
         nose_3 = 5,
@@ -123,11 +125,13 @@ Config.DefaultESXSkin = {
         beard_3 = 0,
         beard_4 = 0,
     },
-    [1] = {
+    ["f"] = {
         mom = 28,
         dad = 6,
+        grandparents = 0,
         face_md_weight = 63,
         skin_md_weight = 60,
+        face_g_weight = 0,
         nose_1 = -10,
         nose_2 = 4,
         nose_3 = 5,
