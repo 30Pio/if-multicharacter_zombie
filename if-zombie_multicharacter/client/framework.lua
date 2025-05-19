@@ -25,6 +25,7 @@ local function loadESXFramework()
         ESX.PlayerLoaded = false
         ESX.PlayerData = {}
     end
+    framework.SpawnPlayer = ESX.SpawnPlayer
     framework.LoadSkin = function(skin)
         TriggerEvent("skinchanger:loadSkin", skin)
     end

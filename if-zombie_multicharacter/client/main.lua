@@ -20,7 +20,9 @@ CreateThread(function()
     while not CLFramework.IsPlayerLoggedIn do
         Wait(100)
         if NetworkIsSessionStarted() then
-            exports.spawnmanager:setAutoSpawn(false)
+            if GetResourceState("spawnmanager") == "started" then
+                exports.spawnmanager:setAutoSpawn(false)
+            end
             DoScreenFadeOut(0)
             TriggerEvent('if-zombie_multicharacter:client:handleMulticharacterUi', true)
             break
@@ -117,22 +119,41 @@ end
 ---@param skin? table
 function InitializePedModel(model, skin)
     if not model and not skin then
-        exports.spawnmanager:spawnPlayer({
-            x = SPAWN_COORDS.x,
-            y = SPAWN_COORDS.y,
-            z = SPAWN_COORDS.z,
-            heading = SPAWN_COORDS.w,
-            model = model or joaat(RANDOM_PED_MODELS[math.random(#RANDOM_PED_MODELS)]),
-            skipFade = true,
-        }, function()
-            canPlayerRelog = false
-            if skin or CLFramework.DefaultSkin then
-                local gender = model == `mp_m_freemode_01` and 0 or 1 ---@type integer | string
-                CLFramework.LoadSkin(skin or CLFramework.DefaultSkin[gender])
-            else
-                SetPedComponentVariation(PlayerPedId(), 0, 0, 0, 2)
-            end
-        end)
+        if GetResourceState("spawnmanager") == "started" then
+            exports.spawnmanager:spawnPlayer({
+                x = SPAWN_COORDS.x,
+                y = SPAWN_COORDS.y,
+                z = SPAWN_COORDS.z,
+                heading = SPAWN_COORDS.w,
+                model = model or joaat(RANDOM_PED_MODELS[math.random(#RANDOM_PED_MODELS)]),
+                skipFade = true,
+            }, function()
+                canPlayerRelog = false
+                if skin or CLFramework.DefaultSkin then
+                    local gender = model == `mp_m_freemode_01` and 0 or 1 ---@type integer | string
+                    CLFramework.LoadSkin(skin or CLFramework.DefaultSkin[gender])
+                else
+                    SetPedComponentVariation(PlayerPedId(), 0, 0, 0, 2)
+                end
+            end)
+        elseif CLFramework?.SpawnPlayer then -- Reserverd for "new" ESX Legacy versions
+            model = model or joaat(RANDOM_PED_MODELS[math.random(#RANDOM_PED_MODELS)])
+            local gender = model == `mp_m_freemode_01` and "m" or "f" ---@type "m" | "f"
+            skin = skin or CLFramework.DefaultSkin[gender]
+
+            CLFramework.SpawnPlayer(
+                skin,
+                { x = SPAWN_COORDS.x, y = SPAWN_COORDS.y, z = SPAWN_COORDS.z, heading = SPAWN_COORDS.w },
+                function()
+                    DoScreenFadeIn(400)
+
+                    SetPedAoBlobRendering(PlayerPedId(), false)
+                    SetEntityAlpha(PlayerPedId(), 0, false)
+
+                    canPlayerRelog = false
+                end
+            )
+        end
     elseif model or skin then
         if model and GetEntityModel(PlayerPedId()) ~= model then
             loadModel(model)
